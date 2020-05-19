@@ -1,0 +1,27 @@
+[package]
+name = "bookcase_backend"
+version = "0.1.0"
+authors = ["Nnamdi Kalu <nnamdi.kalu@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+# server framework
+actix-web = { git = "https://github.com/actix/actix-web" }
+actix-rt = "1.1.1"
+
+# database mappers
+tokio-pg-mapper = "0.1.7"
+tokio-pg-mapper-derive = "0.1.5"
+tokio-postgres = "0.5.4"
+deadpool-postgres = "0.5.5"
+
+# serialization/deserialization (JSON)
+serde = { version="1.0.110", features=["derive"]}
+serde_json = "1.0.53"
+
+# For server config
+dotenv = "0.15.0"
+config = "0.10.1"
+env_logger = "0.7.1"
