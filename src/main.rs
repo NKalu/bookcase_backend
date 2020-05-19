@@ -2,6 +2,7 @@ mod config;
 mod models;
 mod handlers;
 mod routes;
+mod errors;
 
 use actix_web::{web, middleware,
     HttpServer, App};
