@@ -1,8 +1,11 @@
 use crate::models::books::{
     NewBook,
     create_book_in_db, 
-    get_books_from_db
+    get_books_from_db,
+    get_book_by_id
 };
+use crate::errors::errors::{AppError, AppErrorType::*};
+
 use serde::{Serialize, Deserialize};
 use deadpool_postgres::{Pool, Client};
 use actix_web::{web, HttpResponse, Responder};
@@ -26,6 +29,17 @@ pub async fn get_books(db_pool: web::Data<Pool>) -> impl Responder {
 
     match result {
         Ok(books) => HttpResponse::Ok().header("X-Total-Count", books.len()).json(books),
+        Err(_) => HttpResponse::InternalServerError().into()
+    }
+}
+
+pub async fn get_book_from_id(id: web::Path<(i32,)>, db_pool: web::Data<Pool>,) -> impl Responder {
+    let client: Client = db_pool.get().await.expect("Error connecting to database");
+
+    let result = get_book_by_id(&client, id.0).await;
+
+    match result {
+        Ok(book) => HttpResponse::Ok().json(book),
         Err(_) => HttpResponse::InternalServerError().into()
     }
 }
